@@ -1,0 +1,57 @@
+紅樓夢・劇情查詢｜操作與繳交指引
+
+一、檔案
+RAG01_紅樓夢_建立向量資料庫.ipynb：程式一，下載原文、切段、向量化、建立FAISS與打包。
+RAG02_紅樓夢_劇情查詢機器人.ipynb：程式二，讀ZIP、檢索、呼叫Groq、啟動Gradio。
+rag-data.zip：已建立的向量資料庫；不只是原文ZIP。
+characters.png：AI生成的寶玉、黛玉、寶釵裝飾插畫。
+validation.json：本機檢索測試報告；不是LLM回答測試報告。
+繳交說明草稿.txt：需補上學號姓名、連結與實際截圖的說明。
+
+二、最快試跑方式
+1. 開啟 https://colab.research.google.com/ ，上傳RAG02的ipynb。
+2. 執行階段→變更執行階段類型→T4 GPU（建議）。
+3. Colab左側鑰匙圖示→新增名為 Groq 的密鑰，填入自己的Groq API key，開啟此Notebook存取權限。
+   不要將key貼進聊天、程式碼或截圖。
+4. 先不填ZIP網址也能使用內附已建好資料庫。依序執行各格，開啟Gradio介面。
+5. 若沒有金鑰，介面仍可「只查原文」；此模式不是完整RAG生成成果，不能當作已完成LLM測試。
+
+三、正式繳交必做
+1. 將rag-data.zip上傳Google Drive，分享→知道連結的任何人→檢視者。
+2. 將其分享連結貼入RAG02第3步的 RAG_ZIP_URL。程式會轉換 /file/d/ID/view 格式。
+   若Drive傳回確認頁或權限頁，程式會拒絕；請改用可直接下載的網址。
+3. 在新的Colab執行環境執行全部儲存格，確認是從雲端下載，而非內附模式。
+4. 測試生成回答，逐條核對實際回目及原文。
+5. Colab右上角分享→知道連結的任何人→檢視者，複製Colab網址。
+6. 用無痕視窗檢查ZIP及Colab都能開啟。
+7. 截取實際Gradio問答畫面、Prompt、AI協助的提示與結果。
+8. 在繳交區填寫「學號 系級 姓名 紅樓夢劇情查詢」，附連結、說明及截圖。
+
+四、資料範圍
+Project Gutenberg #24264：https://www.gutenberg.org/ebooks/24264
+下載：https://www.gutenberg.org/ebooks/24264.txt.utf-8
+原檔保留在hongloumeng.txt。這是一份特定電子文本，並非校勘定本。
+選用20回：3、6、23、26、27、28、31、33、34、37、38、40、41、73、74、96、97、98、119、120。
+介面列出收錄範圍。可查這些回目的原文，不能宣稱全書完整查詢。
+前80回與後40回分開標記，後40回情節以此資料版本為準。
+不使用AI生成的故事摘要作為知識來源。
+
+五、自己需要理解的重點
+RAG01的向量化：把原文段落轉成可計算距離的數值向量。
+分段與重疊：避免整回過長，也保留段落邊界附近的上下文。
+RAG02的檢索：問題使用同一向量模型，用FAISS搜尋相關片段，再混合關鍵字排序。
+生成：將實際檢索到的原文與問題交給LLM，由Prompt約束回答並附片段ID。
+相似度不是正確率；引用編號存在也不代表推論一定正確。
+追問：歷史對話只用來理解代名詞，答案仍必須重新檢索原文。
+
+六、老師範例
+https://yenlung.me/rag01colab
+https://yenlung.me/rag02colab
+已保留固定套件：sentence-transformers、transformers、faiss-cpu、aisuite[groq]、groq、gradio。
+Notebook安裝格沿用取得的老師範例版本。
+Embedding改成intfloat/multilingual-e5-small以減少資源需求；兩份程式使用相同模型與固定revision。
+
+七、完成狀態的界線
+本機可驗證建庫、ZIP、檢索、程式與介面。只有在自己的Colab實際執行並設定金鑰後，才能確認雲端完整生成流程。
+本機資料庫附在RAG02內便於試跑，不等於公開雲端ZIP網址已完成。
+沒有建立或假造你的Colab共用連結，也沒有代填身分資料或假造實測對話截圖。
